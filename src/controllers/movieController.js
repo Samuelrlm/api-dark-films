@@ -20,7 +20,21 @@ const listMovies = async (req, res, next) => {
   }
 };
 
+const getMovieById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const movie = await Movie.findByPk(id);
+    if (!movie) {
+      return res.status(404).json({ message: 'Movie not found' });
+    }
+    res.json(movie);
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   createMovie,
   listMovies,
+  getMovieById
 };
